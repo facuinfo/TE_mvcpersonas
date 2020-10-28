@@ -23,68 +23,60 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "Controlador", urlPatterns = {"/Controlador"})
 public class Controlador extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        HttpSession ses =request.getSession();
-        ArrayList<Persona> lista=(ArrayList<Persona>) ses.getAttribute("listaest");
-        
-        Persona obj1=new Persona();
-        int id,pos;
-        int opcion=Integer.parseInt("op");
-        switch(opcion){
-            case 1:
-                request.setAttribute("miPersona", obj1);
-                request.getRequestDispatcher("editar.jsp").forward(request, response);
-                break;
-            case 2:
-                id=Integer.parseInt(request.getParameter("id"));
-                pos=buscarIndice(request, id);
-                obj1=lista.get(pos);
-                request.setAttribute("miPersona", obj1);
-                request.getRequestDispatcher("editar.jsp").forward(request, response);
-                break;
-            case 3:
-                id=Integer.parseInt(request.getParameter("id"));
-                pos=buscarIndice(request, id);
-                lista.remove(pos);
-                ses.setAttribute("listaest", lista);
-                response.sendRedirect("index.jsp");
-                break;
-            case 4:
-                //grabar
-                String nuevo=request.getParameter("nuevo");
-                id=Integer.parseInt(request.getParameter("id"));
-                int edad=Integer.parseInt(request.getParameter("edad"));
-                obj1.setId(id);
-                obj1.setNombre("nombre");
-                obj1.setApellido("apellido");
-                obj1.setEdad(edad);
-                if(nuevo.equals("true")){
-                    lista.add(obj1);
-                }
-                else{
-                    pos=buscarIndice(request,id);
-                    lista.set(pos, obj1);
-                }
-                ses.setAttribute("listaest", lista);
-                response.sendRedirect("index.jsp");
-                break;
-            default:
-                response.sendRedirect("index.jsp");
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int op=Integer.parseInt(request.getParameter("op"));
+        int id,pos;
+        HttpSession ses=request.getSession();
+        ArrayList<Persona> lista =( ArrayList<Persona>)ses.getAttribute("listaest");
+        if(op==1){
+            Persona p=new Persona();
+            request.setAttribute("miPersona",p);
+            request.getRequestDispatcher("editar.jsp").forward(request, response);
+        }
+        if(op==2){
+            id=Integer.parseInt(request.getParameter("id"));
+            pos =buscarIndice(request,id);
+            Persona  p1=lista.get(pos);
+            request.setAttribute("miPersona",p1);
+            request.getRequestDispatcher("editar.jsp").forward(request, response);
+        }
+        if(op==3){
+            id=Integer.parseInt(request.getParameter("id"));
+            pos =buscarIndice(request,id);
+            lista.remove(pos);
+            ses.setAttribute("listaest", lista);
+            response.sendRedirect("index.jsp");
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int id=Integer.parseInt(request.getParameter("id"));
+        int edad=Integer.parseInt(request.getParameter("edad"));
+        int pos;
+        String nombres=request.getParameter("nombres");
+        String apellidos=request.getParameter("apellidos");
+        String nuevo=request.getParameter("nuevo");
+        Persona per= new Persona();
+        per.setId(id);
+        per.setNombre(nombres);
+        per.setApellido(apellidos);
+        per.setEdad(edad);
+        HttpSession ses= request.getSession();
+        ArrayList<Persona> lista =( ArrayList<Persona>)ses.getAttribute("listaest");
+        
+        if(nuevo.equals("true")){
+         lista.add(per);   
+        }else{
+            //editar
+            //buscar coleccion y reemplazar
+            pos=buscarIndice(request,id);
+            lista.set(pos,per);
+        }
+        response.sendRedirect("index.jsp");
         
     }
 

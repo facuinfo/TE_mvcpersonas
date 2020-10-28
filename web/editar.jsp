@@ -4,6 +4,7 @@
     Author     : facu_
 --%>
 
+<%@page import="com.emergentes.modelo.Persona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,11 +29,11 @@
                 </tr>
                 <tr>
                     <td>Nombre</td>
-                    <td><input type="text" name="nombres" value="<%= item.getNombres()%>"/></td>
+                    <td><input type="text" name="nombres" value="<%= item.getNombre()%>"/></td>
                 </tr>
                 <tr>
                     <td>Apellidos</td>
-                    <td><input type="text" name="apellidos" value="<%= item.getApellidos()%>"/></td>
+                    <td><input type="text" name="apellidos" value="<%= item.getApellido()%>"/></td>
                 </tr>
                 <tr>
                     <td>Edad</td>

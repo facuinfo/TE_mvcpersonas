@@ -15,15 +15,15 @@
     </head>
     <body>
         <%
-            if(session.getAttribute("listaest")==null){
-                ArrayList<Persona> listaux=new ArrayList<Persona> ();
+            if (session.getAttribute("listaest") == null) {
+                ArrayList<Persona> listaux = new ArrayList<Persona>();
                 session.setAttribute("listaest", listaux);
             }
-            ArrayList<Persona> lista=(ArrayList<Persona>) session.getAttribute("listaest");
+            ArrayList<Persona> lista = (ArrayList<Persona>) session.getAttribute("listaest");
         %>
         <h1>Lista de Personas</h1>
-        <a href="Controlador?op=4">Nuevo</a>
-        <table>
+        <a href="Controlador?op=1">Nuevo</a>
+        <table border="1">
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
@@ -33,15 +33,15 @@
                 <th></th>
             </tr>
             <%
-                if(lista!=null){
-                    for(Persona item:lista){
+                if (lista != null) {
+                    for (Persona item : lista) {
             %>
             <tr>
                 <th><%=item.getId()%></th>
                 <th><%=item.getNombre()%></th>
                 <th><%=item.getApellido()%></th>
                 <th><%=item.getEdad()%></th>
-                <th><a href="Controlador?op=2&id=<%=item.getId()%>">Modificar</a></th>
+                <th><a href="Controlador?op=2&id=<%=item.getId()%>" >Modificar</a></th>
                 <th><a href="Controlador?op=3&id=<%=item.getId()%>" onclick='return confirm("Esta seguro de eliminar el registro ?")'>Eliminar</a></th>
                 <th></th>
             </tr>
@@ -49,7 +49,7 @@
                     }
                 }
             %>
-            
+
         </table>
     </body>
 </html>
